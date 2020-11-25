@@ -1,0 +1,38 @@
+PATH
+  remote: .
+  specs:
+    greenhouse_api (0.1.10)
+      faraday (~> 1.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.4.4)
+    faraday (1.1.0)
+      multipart-post (>= 1.2, < 3)
+      ruby2_keywords
+    multipart-post (2.1.1)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.0)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.0)
+    ruby2_keywords (0.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  greenhouse_api!
+  rspec (~> 3.10)
+
+BUNDLED WITH
+   2.1.4
