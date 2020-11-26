@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://harvest.greenhouse.io/v1/candidates?page=1&per_page=1
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Basic MDc4Y3Njg;lklk5MTIzNjNiZjFi68NjdmNWY4Mmll;E2NDE3YTAtMzo=
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 26 Nov 2020 21:25:33 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Link:
+      - <https://harvest.greenhouse.io/v1/candidates?page=2&per_page=1>; rel="next",<https://harvest.greenhouse.io/v1/candidates?page=2&per_page=1>;
+        rel="last"
+      Status:
+      - 200 OK
+      X-Content-Type-Options:
+      - nosniff
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '49'
+      X-Request-Id:
+      - fda6d079751545896b99bdbab43a77be
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"website_addresses":[],"updated_at":"2020-11-11T00:18:03.026Z","title":"boss","tags":["nice"],"social_media_addresses":[],"recruiter":{"name":"Tanner
+        Johnson","last_name":"Johnson","id":4198050003,"first_name":"Tanner","employee_id":null},"photo_url":null,"phone_numbers":[{"value":"12086546565","type":"home"}],"last_name":"Levin","last_activity":"2020-11-11T00:18:02.994Z","is_private":false,"id":15675032003,"first_name":"Adam","employments":[],"email_addresses":[],"educations":[],"created_at":"2020-11-04T23:09:21.253Z","coordinator":null,"company":"stealth
+        startup","can_email":true,"attachments":[{"url":"https://grnhse-ghr-prod-s3.s3.amazonaws.com/person_attachments/data/187/374/520/original/Adam_Levin_-_Offer_Packet_2020-11-23_%28Private%29.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVQGOLGY3WPXPAUKJ%2F20201126%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201126T212533Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=8def5ffca49a77beb0c6f1f20f365d671e35906fad6d7d5119b86adafcc9ef65","type":"offer_packet","filename":"Adam_Levin_-_Offer_Packet_2020-11-23_(Private).pdf"},{"url":"https://grnhse-ghr-prod-s3.s3.amazonaws.com/person_attachments/data/171/349/600/original/_69_set_menu_august_2019%20%281%29.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVQGOLGY3WPXPAUKJ%2F20201126%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201126T212533Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=78afeaeb7088322443778e9a80576c2088f784091e8667fb3150dba1936a3f22","type":"resume","filename":"_69_set_menu_august_2019
+        (1).pdf"}],"applications":[{"status":"active","source":{"public_name":"Social
+        media presence","id":4000171003},"rejection_reason":null,"rejection_details":null,"rejected_at":null,"prospective_office":null,"prospective_department":null,"prospect_detail":{"prospect_stage":null,"prospect_pool":null,"prospect_owner":null},"prospect":false,"location":null,"last_activity_at":"2020-11-11T00:18:02.994Z","jobs":[{"name":"Senior
+        Software Engineer","id":4159343003}],"id":17522853003,"current_stage":{"name":"Application
+        Review","id":5109223003},"credited_to":{"name":"Tanner Johnson","last_name":"Johnson","id":4198050003,"first_name":"Tanner","employee_id":null},"candidate_id":15675032003,"attachments":[{"url":"https://grnhse-ghr-prod-s3.s3.amazonaws.com/person_attachments/data/187/374/520/original/Adam_Levin_-_Offer_Packet_2020-11-23_%28Private%29.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVQGOLGY3WPXPAUKJ%2F20201126%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201126T212533Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=8def5ffca49a77beb0c6f1f20f365d671e35906fad6d7d5119b86adafcc9ef65","type":"offer_packet","filename":"Adam_Levin_-_Offer_Packet_2020-11-23_(Private).pdf"},{"url":"https://grnhse-ghr-prod-s3.s3.amazonaws.com/person_attachments/data/171/349/600/original/_69_set_menu_august_2019%20%281%29.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVQGOLGY3WPXPAUKJ%2F20201126%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201126T212533Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=78afeaeb7088322443778e9a80576c2088f784091e8667fb3150dba1936a3f22","type":"resume","filename":"_69_set_menu_august_2019
+        (1).pdf"}],"applied_at":"2020-11-04T23:09:21.290Z","answers":[]}],"application_ids":[17522853003],"addresses":[]}]'
+  recorded_at: Thu, 26 Nov 2020 21:25:33 GMT
+recorded_with: VCR 6.0.0
