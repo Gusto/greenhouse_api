@@ -34,7 +34,16 @@ module GreenhouseApi
         endpoint: "applications/#{application_id}/offers/current_offer",
         params: {}
       )
-      present_response(response)
+
+      if response.status == 200
+        Response.new(
+          body: response.body,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
     end
 
     def list_many(resource, params = {})
@@ -63,7 +72,15 @@ module GreenhouseApi
         end
       end
 
-      present_response(response, data)
+      if response.status == 200
+        Response.new(
+          body: data,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
     end
 
     private
@@ -97,18 +114,6 @@ module GreenhouseApi
         headers: response.headers,
         status: response.status
       )
-    end
-
-    def present_response(response, data = nil)
-      if response.status == 200
-        Response.new(
-          body: data,
-          headers: response.headers,
-          status: response.status
-        )
-      else
-        response
-      end
     end
   end
 end

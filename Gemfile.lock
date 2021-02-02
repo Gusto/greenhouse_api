@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    greenhouse_api (0.1.11)
+    greenhouse_api (0.1.12)
       faraday (>= 0.15.4)
 
 GEM

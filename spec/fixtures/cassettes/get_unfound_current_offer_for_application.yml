@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://harvest.greenhouse.io/v1/applications/789123/offers/current_offer
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Tue, 02 Feb 2021 17:50:18 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '32'
+      Connection:
+      - keep-alive
+      Status:
+      - 404 Not Found
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '49'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - cbe4803943e58ffc764c5fe40e34e0d8
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"message":"Resource not found"}'
+  recorded_at: Tue, 02 Feb 2021 17:50:18 GMT
+recorded_with: VCR 6.0.0
