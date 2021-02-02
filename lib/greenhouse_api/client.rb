@@ -27,6 +27,16 @@ module GreenhouseApi
       list_many('candidates', params)
     end
 
+    def get_current_offer_for_application(application_id)
+      response = request(
+        http_method: :get,
+        headers: headers,
+        endpoint: "applications/#{application_id}/offers/current_offer",
+        params: {}
+      )
+      present_response(response)
+    end
+
     def list_many(resource, params = {})
       limit = params.delete(:limit)
       page = 1
@@ -53,15 +63,7 @@ module GreenhouseApi
         end
       end
 
-      if response.status == 200
-        Response.new(
-          body: data,
-          headers: response.headers,
-          status: response.status
-        )
-      else
-        response
-      end
+      present_response(response, data)
     end
 
     private
@@ -95,6 +97,18 @@ module GreenhouseApi
         headers: response.headers,
         status: response.status
       )
+    end
+
+    def present_response(response, data = nil)
+      if response.status == 200
+        Response.new(
+          body: data,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
     end
   end
 end
