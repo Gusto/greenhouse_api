@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://harvest.greenhouse.io/v1/applications/123456/offers/current_offer
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 02 Feb 2021 17:49:32 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '49'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - 809721163c67bed5126ff17cb6f0c38c
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":4181733003,"version":1,"application_id":123456,"created_at":"2020-12-21T21:07:03.290Z","updated_at":"2021-01-06T18:51:49.525Z","sent_at":null,"resolved_at":null,"starts_at":"2020-12-04","status":"unresolved","job_id":4159343003,"candidate_id":19301049003,"opening":null,"custom_fields":{"employment_type":"Full-time"},"keyed_custom_fields":{"employment_type":{"name":"Employment
+        Type","type":"single_select","value":"Full-time"}}}'
+  recorded_at: Tue, 02 Feb 2021 17:49:32 GMT
+recorded_with: VCR 6.0.0

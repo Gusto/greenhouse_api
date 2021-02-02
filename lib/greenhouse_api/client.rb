@@ -27,6 +27,25 @@ module GreenhouseApi
       list_many('candidates', params)
     end
 
+    def get_current_offer_for_application(application_id)
+      response = request(
+        http_method: :get,
+        headers: headers,
+        endpoint: "applications/#{application_id}/offers/current_offer",
+        params: {}
+      )
+
+      if response.status == 200
+        Response.new(
+          body: response.body,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
+    end
+
     def list_many(resource, params = {})
       limit = params.delete(:limit)
       page = 1

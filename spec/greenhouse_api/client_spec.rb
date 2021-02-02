@@ -71,4 +71,36 @@ RSpec.describe GreenhouseApi::Client do
       subject
     end
   end
+
+  describe '#get_current_offer_for_application' do
+    subject(:get_current_offer_for_application) { client.get_current_offer_for_application(application_id) }
+    let(:application_id) { 123_456 }
+
+    context 'when there is a current offer for the application' do
+      it 'fetches the offer data' do
+        VCR.use_cassette('get_current_offer_for_application') do
+          response = subject
+          expect(response.status).to eq(200)
+          expect(response.body.dig('id')).to eq(4_181_733_003)
+          expect(response.body.dig('application_id')).to eq(123_456)
+          expect(response.body.dig('sent_at')).to eq(nil)
+          expect(response.body.dig('starts_at')).to eq('2020-12-04')
+          expect(response.body.dig('candidate_id')).to eq(19_301_049_003)
+          expect(response.body.dig('job_id')).to eq(4_159_343_003)
+        end
+      end
+    end
+
+    context 'when there is not a current offer' do
+      let(:application_id) { 789_123 }
+
+      it 'returns not found' do
+        VCR.use_cassette('get_unfound_current_offer_for_application') do
+          response = subject
+          expect(response.status).to eq(404)
+          expect(response.body).to eq({ 'message' => 'Resource not found' })
+        end
+      end
+    end
+  end
 end

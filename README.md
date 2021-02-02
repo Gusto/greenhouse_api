@@ -10,6 +10,10 @@ client.list_candidates
 
 # Get other resources type
 client.list_many('departments', limit: 5)
+
+# Get current offer for application
+client.get_current_offer_for_application(12345)
+
 ```
 
 ## Installation
