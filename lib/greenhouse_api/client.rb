@@ -59,7 +59,7 @@ module GreenhouseApi
           http_method: :get,
           headers: headers,
           endpoint: resource,
-          params: params.merge(page: page, per_page: per_page)
+          params: params.merge(page: page, per_page: params[:per_page] || per_page)
         )
         break if response.status != 200
 

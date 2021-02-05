@@ -50,7 +50,7 @@ RSpec.describe GreenhouseApi::Client do
     end
 
     context 'when there is page param' do
-      let(:params) { { page: 3 } }
+      let(:params) { { page: 3, per_page: 5 } }
 
       it 'returns just one page' do
         VCR.use_cassette('fetch_a_specific_candidate_page') do
