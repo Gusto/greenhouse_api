@@ -48,12 +48,16 @@ module GreenhouseApi
 
     def list_many(resource, params = {})
       limit = params.delete(:limit)
-      page = 1
+      page = params[:page] || 1
       data = []
       response = nil
 
       loop do
-        per_page = limit ? [limit - data.length, MAX_PER_PAGE].min : MAX_PER_PAGE
+        per_page = if params[:per_page]
+          params[:per_page]
+        else
+          limit ? [limit - data.length, MAX_PER_PAGE].min : MAX_PER_PAGE
+        end
 
         response = request(
           http_method: :get,
@@ -65,7 +69,7 @@ module GreenhouseApi
 
         data.concat(response.body)
 
-        if last_page?(response) || data_limit_reached?(data, limit)
+        if last_page?(response) || data_limit_reached?(data, limit) || params[:page]
           break
         else
           page += 1
