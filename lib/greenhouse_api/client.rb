@@ -53,13 +53,17 @@ module GreenhouseApi
       response = nil
 
       loop do
-        per_page = limit ? [limit - data.length, MAX_PER_PAGE].min : MAX_PER_PAGE
+        per_page = if params[:per_page]
+          params[:per_page]
+        else
+          limit ? [limit - data.length, MAX_PER_PAGE].min : MAX_PER_PAGE
+        end
 
         response = request(
           http_method: :get,
           headers: headers,
           endpoint: resource,
-          params: params.merge(page: page, per_page: params[:per_page] || per_page)
+          params: params.merge(page: page, per_page: per_page)
         )
         break if response.status != 200
 
