@@ -48,7 +48,7 @@ module GreenhouseApi
 
     def list_many(resource, params = {})
       limit = params.delete(:limit)
-      page = 1
+      page = params[:page] || 1
       data = []
       response = nil
 
@@ -65,7 +65,7 @@ module GreenhouseApi
 
         data.concat(response.body)
 
-        if last_page?(response) || data_limit_reached?(data, limit)
+        if last_page?(response) || data_limit_reached?(data, limit) || params[:page]
           break
         else
           page += 1

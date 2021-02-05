@@ -49,6 +49,22 @@ RSpec.describe GreenhouseApi::Client do
       end
     end
 
+    context 'when there is page param' do
+      let(:params) { { page: 3 } }
+
+      it 'returns just one page' do
+        VCR.use_cassette('fetch_a_specific_candidate_page') do
+          response = subject
+          expect(response.body.length).to eq(1)
+          candidate = response.body.first
+          expect(candidate.dig('id')).to eq(15_675_032_003)
+          expect(candidate.dig('first_name')).to eq('Adam')
+          expect(candidate.dig('last_name')).to eq('Levin')
+          expect(candidate.dig('applications').first.dig('status')).to eq('active')
+        end
+      end
+    end
+
     context 'when there is an error' do
       let(:params) { {} }
 
