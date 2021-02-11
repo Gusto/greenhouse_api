@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 require 'faraday'
@@ -16,6 +17,8 @@ module GreenhouseApi
   end
 
   class Client
+    extend T::Sig
+
     MAX_PER_PAGE = 500
     API_URL = 'https://harvest.greenhouse.io/v1'
 
@@ -44,6 +47,36 @@ module GreenhouseApi
       else
         response
       end
+    end
+
+
+    sig { params(first_name: String, last_name: String, email: String, on_behalf_of_id: String).returns(Response) }
+    def create_user(params)
+      # use on_behalf_of_id in headersg
+      response = request(
+        http_method: :post,
+        headers: headers,
+        endpoint: "users",
+        params: params
+      )
+
+      if response.status == 200
+        Response.new(
+          body: response.body,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
+    end
+
+    def disable_user(params)
+
+    end
+
+    def enable_user(params)
+
     end
 
     def list_many(resource, params = {})
