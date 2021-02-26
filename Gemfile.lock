@@ -3,7 +3,7 @@ PATH
   specs:
     greenhouse_api (0.3.0)
       faraday (>= 0.15.4)
-      sorbet-runtime (~> 0.5.5369)
+      sorbet-runtime (>= 0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -46,7 +46,7 @@ PLATFORMS
 DEPENDENCIES
   greenhouse_api!
   rspec (~> 3.10)
-  sorbet (~> 0.5.5369)
+  sorbet (>= 0.5)
   vcr (~> 6)
   webmock (~> 3.10)
 
