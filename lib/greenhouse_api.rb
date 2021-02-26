@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 require "greenhouse_api/version"

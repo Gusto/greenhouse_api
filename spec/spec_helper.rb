@@ -1,3 +1,4 @@
+# typed: strict
 require "vcr"
 require "bundler/setup"
 require "greenhouse_api"
