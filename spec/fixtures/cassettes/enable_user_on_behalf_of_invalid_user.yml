@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: patch
+    uri: https://harvest.greenhouse.io/v2/users/enable
+    body:
+      encoding: UTF-8
+      string: '{"user":{"email":"pikachu@testing.com"}}'
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      On-Behalf-Of:
+      - '3895753'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Wed, 03 Mar 2021 18:16:20 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '32'
+      Connection:
+      - keep-alive
+      Status:
+      - 404 Not Found
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '48'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - c4aca2e1782504dde6a779643380ff4c
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"message":"Resource not found"}'
+  recorded_at: Wed, 03 Mar 2021 18:16:20 GMT
+recorded_with: VCR 6.0.0

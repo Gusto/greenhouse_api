@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://harvest.greenhouse.io/v1/users
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Pika","last_name":"Pikachu","email":"","employee_id":"30928902"}'
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      On-Behalf-Of:
+      - '4198051003'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Wed, 03 Mar 2021 18:15:14 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '125'
+      Connection:
+      - keep-alive
+      Status:
+      - 422 Unprocessable Entity
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '48'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - 57a4fb1192ebb461f7dbc628af309ff6
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"message":"Missing required field: email","field":"email"},{"message":"Invalid
+        email address.","field":"email"}]}'
+  recorded_at: Wed, 03 Mar 2021 18:15:15 GMT
+recorded_with: VCR 6.0.0
