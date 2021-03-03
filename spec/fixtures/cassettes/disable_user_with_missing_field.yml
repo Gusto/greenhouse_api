@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: patch
+    uri: https://harvest.greenhouse.io/v2/users/disable
+    body:
+      encoding: UTF-8
+      string: '{"user":{}}'
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      On-Behalf-Of:
+      - '4198051003'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Wed, 03 Mar 2021 18:16:18 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '34'
+      Connection:
+      - keep-alive
+      Status:
+      - 400 Bad Request
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '46'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - 117d6d6e6c397238a4151c9ea181ac7f
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"message":"Invalid JSON Payload"}'
+  recorded_at: Wed, 03 Mar 2021 18:16:18 GMT
+recorded_with: VCR 6.0.0

@@ -120,4 +120,202 @@ RSpec.describe GreenhouseApi::Client do
       end
     end
   end
+
+  describe 'users' do
+    let(:on_behalf_of_id) { '4198051003' }
+    let(:employee_id) { '30928902' }
+    let(:user_id) { '4315648003' }
+    let(:email) { 'pikachu@testing.com' }
+
+    describe '#create_user' do
+      subject(:create_user) do
+        client.create_user(
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          on_behalf_of_id: on_behalf_of_id,
+          employee_id: employee_id
+        )
+      end
+      let(:first_name) { 'Pika' }
+      let(:last_name) { 'Pikachu' }
+
+      context 'when successful' do
+        it 'creates user' do
+          VCR.use_cassette('create_user') do
+            response = subject
+            expect(response.status).to eq(201)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('primary_email_address')).to eq(email)
+            expect(response.body.dig('disabled')).to eq(false)
+            expect(response.body.dig('site_admin')).to eq(false)
+          end
+        end
+      end
+
+      context 'when there is an error' do
+        let(:email) { '' }
+
+        it 'returns the error' do
+          VCR.use_cassette('create_user_with_missing_field') do
+            response = subject
+            expect(response.status).to eq(422)
+            expect(response.body).to eq(
+              {
+                "errors" => [
+                  { "field" => "email", "message" => "Missing required field: email" },
+                  { "field" => "email", "message" => "Invalid email address." }
+                ]
+              }
+            )
+          end
+        end
+      end
+    end
+
+    describe '#disable_user' do
+      subject(:disable_user) { client.disable_user(user, on_behalf_of_id) }
+
+      context 'with email' do
+        let(:user) { { email: email } }
+
+        it 'disables user' do
+          VCR.use_cassette('disable_user_with_email') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(true)
+          end
+        end
+      end
+
+      context 'with user_id' do
+        let(:user) { { user_id: user_id } }
+
+        it 'disables user' do
+          VCR.use_cassette('disable_user_with_user_id') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(true)
+          end
+        end
+      end
+
+      context 'with employee_id' do
+        let(:user) { { employee_id: employee_id } }
+
+        it 'disables user' do
+          VCR.use_cassette('disable_user_with_employee_id') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(true)
+          end
+        end
+      end
+
+      context 'when there is an error' do
+        let(:user) { {} }
+
+        it 'returns the error' do
+          VCR.use_cassette('disable_user_with_missing_field') do
+            response = subject
+            expect(response.status).to eq(400)
+            expect(response.body).to eq({ 'message' => 'Invalid JSON Payload' })
+          end
+        end
+      end
+    end
+
+    describe '#enable_user' do
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
+
+      context 'with email' do
+        let(:user) { { email: email } }
+
+        it 'enables user' do
+          VCR.use_cassette('enable_user_with_email') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(false)
+          end
+        end
+      end
+
+      context 'with user_id' do
+        let(:user) { { user_id: user_id} }
+
+        it 'enables user' do
+          VCR.use_cassette('enable_user_with_user_id') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(false)
+          end
+        end
+      end
+
+      context 'with employee_id' do
+        let(:user) { { employee_id: employee_id } }
+
+        it 'enables user' do
+          VCR.use_cassette('enable_user_with_employee_id') do
+            response = subject
+            expect(response.status).to eq(200)
+            expect(response.body.dig('id')).to eq(user_id.to_i)
+            expect(response.body.dig('name')).to eq('Pika Pikachu')
+            expect(response.body.dig('disabled')).to eq(false)
+          end
+        end
+      end
+
+      context 'when there is an error' do
+        let(:user) { {} }
+
+        it 'returns the error' do
+          VCR.use_cassette('enable_user_with_missing_field') do
+            response = subject
+            expect(response.status).to eq(400)
+            expect(response.body).to eq({ 'message' => 'Invalid JSON Payload' })
+          end
+        end
+      end
+    end
+
+    context 'when on_behalf_of user is invalid' do
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
+      let(:user) { { email: email } }
+      let(:on_behalf_of_id) { '3895753' }
+
+      it 'returns the error' do
+        VCR.use_cassette('enable_user_on_behalf_of_invalid_user') do
+          response = subject
+          expect(response.status).to eq(404)
+          expect(response.body).to eq({ 'message' => 'Resource not found' })
+        end
+      end
+    end
+
+    context 'when on_behalf_of user is invalid' do
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
+      let(:user) { { email: email } }
+      let(:on_behalf_of_id) { '4198040003' }
+
+      it 'returns the error' do
+        VCR.use_cassette('enable_user_on_behalf_of_bad_permissions') do
+          response = subject
+          expect(response.status).to eq(403)
+          expect(response.body).to eq({ "errors" => [{ 'message' => 'Access denied' }] })
+        end
+      end
+    end
+  end
 end

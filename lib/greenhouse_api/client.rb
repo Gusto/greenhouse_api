@@ -1,9 +1,10 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require 'faraday'
 require 'base64'
 require 'json'
+require 'sorbet-runtime'
 
 module GreenhouseApi
   class Response
@@ -17,8 +18,11 @@ module GreenhouseApi
   end
 
   class Client
+    extend T::Sig
+
     MAX_PER_PAGE = 500
-    API_URL = 'https://harvest.greenhouse.io/v1'
+    ON_BEHALF_OF = 'On-Behalf-Of'
+    API_URL = 'https://harvest.greenhouse.io'
 
     def initialize(api_key)
       @api_key = api_key
@@ -33,18 +37,46 @@ module GreenhouseApi
         http_method: :get,
         headers: headers,
         endpoint: "applications/#{application_id}/offers/current_offer",
-        params: {}
       )
+      compose_response(response)
+    end
 
-      if response.status == 200
-        Response.new(
-          body: response.body,
-          headers: response.headers,
-          status: response.status
-        )
-      else
-        response
-      end
+    sig { params(first_name: String, last_name: String, email: String, on_behalf_of_id: String, additional_args: T.any(T::Boolean, String)).returns(Response) }
+    def create_user(first_name:, last_name:, email:, on_behalf_of_id:, **additional_args)
+      body = { first_name: first_name, last_name: last_name, email: email }.merge(additional_args).to_json
+      response = request(
+        http_method: :post,
+        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
+        endpoint: "users",
+        body: body
+      )
+      compose_response(response)
+    end
+
+    sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
+    def disable_user(user, on_behalf_of_id)
+      body = { user: user }.to_json
+      response = request(
+        http_method: :patch,
+        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
+        endpoint: "users/disable",
+        body: body,
+        api_version: 'v2'
+      )
+      compose_response(response)
+    end
+
+    sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
+    def enable_user(user, on_behalf_of_id)
+      body = { user: user }.to_json
+      response = request(
+        http_method: :patch,
+        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
+        endpoint: "users/enable",
+        body: body,
+        api_version: 'v2'
+      )
+      compose_response(response)
     end
 
     def list_many(resource, params = {})
@@ -106,10 +138,10 @@ module GreenhouseApi
       }
     end
 
-    def request(http_method:, headers:, endpoint:, params:, body: {})
+    def request(http_method:, headers:, endpoint:, params: {}, body: {}, api_version: 'v1')
       response = Faraday.public_send(http_method) do |request|
         request.headers = headers
-        request.path = "#{API_URL}/#{endpoint}"
+        request.path = "#{API_URL}/#{api_version}/#{endpoint}"
         request.params = params
         request.body = body
       end
@@ -119,6 +151,18 @@ module GreenhouseApi
         headers: response.headers,
         status: response.status
       )
+    end
+
+    def compose_response(response)
+      if [200, 201].include?(response&.status)
+        Response.new(
+          body: response.body,
+          headers: response.headers,
+          status: response.status
+        )
+      else
+        response
+      end
     end
   end
 end

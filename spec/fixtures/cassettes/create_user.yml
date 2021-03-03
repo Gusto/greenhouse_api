@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://harvest.greenhouse.io/v1/users
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Pika","last_name":"Pikachu","email":"pikachu@testing.com","employee_id":"30928902"}'
+    headers:
+      Authorization:
+      - Basic MDc4YjY3lkjlNjg5MTIzNjNiZjFiNjdmNWY4MmE2NDE3YTAtMzo=
+      On-Behalf-Of:
+      - '4198051003'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 03 Mar 2021 18:15:14 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '337'
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      X-Ratelimit-Limit:
+      - '50'
+      X-Ratelimit-Remaining:
+      - '49'
+      X-Content-Type-Options:
+      - nosniff
+      X-Request-Id:
+      - 2ec03cbbad6137e24de2356847d12b2b
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"id":4315648003,"name":"Pika Pikachu","first_name":"Pika","last_name":"Pikachu","primary_email_address":"pikachu@testing.com","updated_at":"2021-03-03T20:15:13.950+02:00","created_at":"2021-03-03T20:15:13.950+02:00","disabled":false,"site_admin":false,"emails":["pikachu@testing.com"],"employee_id":"30928902","linked_candidate_ids":[]}'
+  recorded_at: Wed, 03 Mar 2021 18:15:14 GMT
+recorded_with: VCR 6.0.0
