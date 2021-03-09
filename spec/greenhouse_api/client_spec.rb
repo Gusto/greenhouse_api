@@ -80,7 +80,7 @@ RSpec.describe GreenhouseApi::Client do
   end
 
   describe '#list_candidates' do
-    subject(:list_candidates) { client.candidates.list_candidates(params) }
+    subject(:list_candidates) { client.list_candidates(params) }
     let(:params) { {} }
 
     it 'calls list_many with candidates endpoint' do
@@ -90,7 +90,7 @@ RSpec.describe GreenhouseApi::Client do
   end
 
   describe '#get_current_offer_for_application' do
-    subject(:get_current_offer_for_application) { client.offers.get_current_offer_for_application(application_id) }
+    subject(:get_current_offer_for_application) { client.get_current_offer_for_application(application_id) }
     let(:application_id) { 123_456 }
 
     context 'when there is a current offer for the application' do
@@ -129,7 +129,7 @@ RSpec.describe GreenhouseApi::Client do
 
     describe '#create_user' do
       subject(:create_user) do
-        client.users.create_user(
+        client.create_user(
           first_name: first_name,
           last_name: last_name,
           email: email,
@@ -175,7 +175,7 @@ RSpec.describe GreenhouseApi::Client do
     end
 
     describe '#disable_user' do
-      subject(:disable_user) { client.users.disable_user(user, on_behalf_of_id) }
+      subject(:disable_user) { client.disable_user(user, on_behalf_of_id) }
 
       context 'with email' do
         let(:user) { { email: email } }
@@ -233,7 +233,7 @@ RSpec.describe GreenhouseApi::Client do
     end
 
     describe '#enable_user' do
-      subject(:enable_user) { client.users.enable_user(user, on_behalf_of_id) }
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
 
       context 'with email' do
         let(:user) { { email: email } }
@@ -291,7 +291,7 @@ RSpec.describe GreenhouseApi::Client do
     end
 
     context 'when on_behalf_of user is invalid' do
-      subject(:enable_user) { client.users.enable_user(user, on_behalf_of_id) }
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
       let(:user) { { email: email } }
       let(:on_behalf_of_id) { '3895753' }
 
@@ -305,7 +305,7 @@ RSpec.describe GreenhouseApi::Client do
     end
 
     context 'when on_behalf_of user is invalid' do
-      subject(:enable_user) { client.users.enable_user(user, on_behalf_of_id) }
+      subject(:enable_user) { client.enable_user(user, on_behalf_of_id) }
       let(:user) { { email: email } }
       let(:on_behalf_of_id) { '4198040003' }
 

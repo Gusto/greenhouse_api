@@ -5,7 +5,7 @@ require 'sorbet-runtime'
 
 module GreenhouseApi
   module Resources
-    class Offers < Client
+    class Offers < BaseClient
       extend T::Sig
 
       sig { params(application_id: String).returns(Response) }

@@ -1,129 +1,52 @@
-# typed: true
+# typed: false
 # frozen_string_literal: true
 
-require 'faraday'
-require 'base64'
-require 'json'
-require 'sorbet-runtime'
-
 module GreenhouseApi
-  class Response
-    attr_reader :headers, :body, :status
-
-    def initialize(headers:, body:, status:)
-      @headers = headers
-      @body = body
-      @status = status
-    end
-  end
-
   class Client
-    extend T::Sig
-
-    MAX_PER_PAGE = 500
-    ON_BEHALF_OF = 'On-Behalf-Of'
-    API_URL = 'https://harvest.greenhouse.io'
-
     def initialize(api_key)
       @api_key = api_key
     end
 
-    def candidates
-      Resources::Candidates
-    end
-
-    def offers
-      Resources::Offers
-    end
-
-    def users
-      Resources::Users
-    end
-
-    def headers
-      credential = Base64.strict_encode64(@api_key + ':')
-
-      {
-        'Authorization' => 'Basic ' + credential,
-      }
-    end
-
-    def request(http_method:, headers:, endpoint:, params: {}, body: {}, api_version: 'v1')
-      response = Faraday.public_send(http_method) do |request|
-        request.headers = headers
-        request.path = "#{API_URL}/#{api_version}/#{endpoint}"
-        request.params = params
-        request.body = body
-      end
-
-      Response.new(
-          body: response.body && !response.body.empty? ? JSON.parse(response.body) : '',
-          headers: response.headers,
-          status: response.status
-      )
-    end
-
-    def compose_response(response)
-      if [200, 201].include?(response&.status)
-        Response.new(
-            body: response.body,
-            headers: response.headers,
-            status: response.status
-        )
-      else
-        response
-      end
-    end
-
     def list_many(resource, params = {})
-      limit = params.delete(:limit)
-      page = params[:page] || 1
-      data = []
-      response = nil
+      base_client.list_many(resource, params)
+    end
+    
+    def list_candidates(params = {})
+      candidates_client.list_all(params)
+    end
 
-      loop do
-        per_page = if params[:per_page]
-          params[:per_page]
-        else
-          limit ? [limit - data.length, MAX_PER_PAGE].min : MAX_PER_PAGE
-        end
+    def get_current_offer_for_application(application_id)
+      offers_client.get_current_offer_for_application(application_id)
+    end
 
-        response = request(
-          http_method: :get,
-          headers: headers,
-          endpoint: resource,
-          params: params.merge(page: page, per_page: per_page)
-        )
-        break if response.status != 200
+    def create_user(first_name:, last_name:, email:, on_behalf_of_id:, **additional_args)
+      users_client.create_user(first_name: first_name, last_name: last_name, email: email, on_behalf_of_id: on_behalf_of_id, **additional_args)
+    end
 
-        data.concat(response.body)
+    def disable_user(user, on_behalf_of_id)
+      users_client.disable_user(user, on_behalf_of_id)
+    end
 
-        if last_page?(response) || data_limit_reached?(data, limit) || params[:page]
-          break
-        else
-          page += 1
-        end
-      end
-
-      if response.status == 200
-        Response.new(
-          body: data,
-          headers: response.headers,
-          status: response.status
-        )
-      else
-        response
-      end
+    def enable_user(user, on_behalf_of_id)
+      users_client.enable_user(user, on_behalf_of_id)
     end
 
     private
 
-    def last_page?(response)
-      !response.headers['link'].to_s.include?('rel="next"')
+    def candidates_client
+      @candidates_client ||= ::Resources::Candidates.new(api_key)
     end
 
-    def data_limit_reached?(data, limit)
-      limit && data.length >= limit
+    def offers_client
+      @offers_client ||= ::Resources::Offers.new(api_key)
+    end
+
+    def users_client
+      @users_client ||= ::Resources::Users.new(api_key)
+    end
+
+    def base_client
+      @base_client ||= ::BaseClient.new(api_key)
     end
   end
 end
