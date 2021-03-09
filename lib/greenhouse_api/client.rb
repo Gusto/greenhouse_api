@@ -28,55 +28,51 @@ module GreenhouseApi
       @api_key = api_key
     end
 
-    def list_candidates(params = {})
-      list_many('candidates', params)
+    def candidates
+      Resources::Candidates
     end
 
-    def get_current_offer_for_application(application_id)
-      response = request(
-        http_method: :get,
-        headers: headers,
-        endpoint: "applications/#{application_id}/offers/current_offer",
-      )
-      compose_response(response)
+    def offers
+      Resources::Offers
     end
 
-    sig { params(first_name: String, last_name: String, email: String, on_behalf_of_id: String, additional_args: T.any(T::Boolean, String)).returns(Response) }
-    def create_user(first_name:, last_name:, email:, on_behalf_of_id:, **additional_args)
-      body = { first_name: first_name, last_name: last_name, email: email }.merge(additional_args).to_json
-      response = request(
-        http_method: :post,
-        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
-        endpoint: "users",
-        body: body
-      )
-      compose_response(response)
+    def users
+      Resources::Users
     end
 
-    sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
-    def disable_user(user, on_behalf_of_id)
-      body = { user: user }.to_json
-      response = request(
-        http_method: :patch,
-        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
-        endpoint: "users/disable",
-        body: body,
-        api_version: 'v2'
-      )
-      compose_response(response)
+    def headers
+      credential = Base64.strict_encode64(@api_key + ':')
+
+      {
+        'Authorization' => 'Basic ' + credential,
+      }
     end
 
-    sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
-    def enable_user(user, on_behalf_of_id)
-      body = { user: user }.to_json
-      response = request(
-        http_method: :patch,
-        headers: headers.merge(ON_BEHALF_OF => on_behalf_of_id),
-        endpoint: "users/enable",
-        body: body,
-        api_version: 'v2'
+    def request(http_method:, headers:, endpoint:, params: {}, body: {}, api_version: 'v1')
+      response = Faraday.public_send(http_method) do |request|
+        request.headers = headers
+        request.path = "#{API_URL}/#{api_version}/#{endpoint}"
+        request.params = params
+        request.body = body
+      end
+
+      Response.new(
+          body: response.body && !response.body.empty? ? JSON.parse(response.body) : '',
+          headers: response.headers,
+          status: response.status
       )
-      compose_response(response)
+    end
+
+    def compose_response(response)
+      if [200, 201].include?(response&.status)
+        Response.new(
+            body: response.body,
+            headers: response.headers,
+            status: response.status
+        )
+      else
+        response
+      end
     end
 
     def list_many(resource, params = {})
@@ -129,41 +125,5 @@ module GreenhouseApi
     def data_limit_reached?(data, limit)
       limit && data.length >= limit
     end
-
-    def headers
-      credential = Base64.strict_encode64(@api_key + ':')
-
-      {
-        'Authorization' => 'Basic ' + credential,
-      }
-    end
-
-    def request(http_method:, headers:, endpoint:, params: {}, body: {}, api_version: 'v1')
-      response = Faraday.public_send(http_method) do |request|
-        request.headers = headers
-        request.path = "#{API_URL}/#{api_version}/#{endpoint}"
-        request.params = params
-        request.body = body
-      end
-
-      Response.new(
-        body: response.body && !response.body.empty? ? JSON.parse(response.body) : '',
-        headers: response.headers,
-        status: response.status
-      )
-    end
-
-    def compose_response(response)
-      if [200, 201].include?(response&.status)
-        Response.new(
-          body: response.body,
-          headers: response.headers,
-          status: response.status
-        )
-      else
-        response
-      end
-    end
   end
 end
-
