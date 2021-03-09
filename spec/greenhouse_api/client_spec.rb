@@ -1,8 +1,6 @@
 # typed: false
 # frozen_string_literal: true
 
-require 'greenhouse_api/resources/candidates'
-
 RSpec.describe GreenhouseApi::Client do
   let(:client) { described_class.new(api_key) }
   let(:api_key) { 'testing-1234' }
