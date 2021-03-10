@@ -82,15 +82,21 @@ RSpec.describe GreenhouseApi::Client do
   describe '#list_candidates' do
     subject(:list_candidates) { client.list_candidates(params) }
     let(:params) { {} }
+    let(:candidates_client) { GreenhouseApi::Resources::Candidates.new(api_key) }
 
-    it 'calls list_many with candidates endpoint' do
-      expect(client).to receive(:list_many).with('candidates', params)
+    before do
+      allow(GreenhouseApi::Resources::Candidates).to receive(:new).and_return(candidates_client)
+      allow(candidates_client).to receive(:list_all).with(params)
+    end
+
+    it 'calls list_all with params' do
+      expect(candidates_client).to receive(:list_all).with(params)
       subject
     end
   end
 
   describe '#get_current_offer_for_application' do
-    subject(:get_current_offer_for_application) { client.get_current_offer_for_application(application_id) }
+    subject(:get_current_offer_for_application) { client.get_current_offer_for_application(application_id.to_s) }
     let(:application_id) { 123_456 }
 
     context 'when there is a current offer for the application' do

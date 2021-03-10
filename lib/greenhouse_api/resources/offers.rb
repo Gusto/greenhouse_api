@@ -9,7 +9,7 @@ module GreenhouseApi
       extend T::Sig
 
       sig { params(application_id: String).returns(Response) }
-      def self.get_current_offer_for_application(application_id)
+      def get_current_offer_for_application(application_id)
         response = request(
           http_method: :get,
           headers: headers,

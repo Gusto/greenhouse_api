@@ -21,7 +21,6 @@ module GreenhouseApi
     extend T::Sig
 
     MAX_PER_PAGE = 500
-    ON_BEHALF_OF = 'On-Behalf-Of'
     API_URL = 'https://harvest.greenhouse.io'
 
     def initialize(api_key)
@@ -45,18 +44,18 @@ module GreenhouseApi
       end
 
       Response.new(
-          body: response.body && !response.body.empty? ? JSON.parse(response.body) : '',
-          headers: response.headers,
-          status: response.status
+        body: response.body && !response.body.empty? ? JSON.parse(response.body) : '',
+        headers: response.headers,
+        status: response.status
       )
     end
 
     def compose_response(response)
       if [200, 201].include?(response&.status)
         Response.new(
-            body: response.body,
-            headers: response.headers,
-            status: response.status
+          body: response.body,
+          headers: response.headers,
+          status: response.status
         )
       else
         response

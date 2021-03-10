@@ -1,6 +1,11 @@
 # typed: false
 # frozen_string_literal: true
 
+require_relative 'base_client'
+require_relative 'resources/candidates'
+require_relative 'resources/offers'
+require_relative 'resources/users'
+
 module GreenhouseApi
   class Client
     def initialize(api_key)
@@ -33,20 +38,22 @@ module GreenhouseApi
 
     private
 
+    attr_accessor :api_key
+
     def candidates_client
-      @candidates_client ||= ::Resources::Candidates.new(api_key)
+      @candidates_client ||= Resources::Candidates.new(api_key)
     end
 
     def offers_client
-      @offers_client ||= ::Resources::Offers.new(api_key)
+      @offers_client ||= Resources::Offers.new(api_key)
     end
 
     def users_client
-      @users_client ||= ::Resources::Users.new(api_key)
+      @users_client ||= Resources::Users.new(api_key)
     end
 
     def base_client
-      @base_client ||= ::BaseClient.new(api_key)
+      @base_client ||= BaseClient.new(api_key)
     end
   end
 end

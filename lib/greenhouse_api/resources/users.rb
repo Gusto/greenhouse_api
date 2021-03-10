@@ -8,8 +8,10 @@ module GreenhouseApi
     class Users < BaseClient
       extend T::Sig
 
+      ON_BEHALF_OF = 'On-Behalf-Of'
+
       sig { params(first_name: String, last_name: String, email: String, on_behalf_of_id: String, additional_args: T.any(T::Boolean, String)).returns(Response) }
-      def self.create_user(first_name:, last_name:, email:, on_behalf_of_id:, **additional_args)
+      def create_user(first_name:, last_name:, email:, on_behalf_of_id:, **additional_args)
         body = { first_name: first_name, last_name: last_name, email: email }.merge(additional_args).to_json
         response = request(
           http_method: :post,
@@ -21,7 +23,7 @@ module GreenhouseApi
       end
 
       sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
-      def self.disable_user(user, on_behalf_of_id)
+      def disable_user(user, on_behalf_of_id)
         body = { user: user }.to_json
         response = request(
           http_method: :patch,
@@ -34,7 +36,7 @@ module GreenhouseApi
       end
 
       sig { params(user: T::Hash[String, T.any(Integer, String)], on_behalf_of_id: String).returns(Response) }
-      def self.enable_user(user, on_behalf_of_id)
+      def enable_user(user, on_behalf_of_id)
         body = { user: user }.to_json
         response = request(
           http_method: :patch,
