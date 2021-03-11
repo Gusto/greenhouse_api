@@ -5,6 +5,34 @@ RSpec.describe GreenhouseApi::Client do
   let(:client) { described_class.new(api_key) }
   let(:api_key) { 'testing-1234' }
 
+  describe '#get_one' do
+    let(:id) { 15_675_032_003 }
+    subject(:get_one) { client.get_one('candidates', id) }
+
+    it 'fetches the resource' do
+      VCR.use_cassette('fetch_candidate_by_id') do
+        response = get_one
+        expect(response.status).to eq(200)
+        candidate = response.body
+        expect(candidate.dig('id')).to eq(15_675_032_003)
+        expect(candidate.dig('first_name')).to eq('Adam')
+        expect(candidate.dig('last_name')).to eq('Levin')
+      end
+    end
+
+    context 'when there is no resource' do
+      let(:id) { 1 }
+
+      it 'returns the error' do
+        VCR.use_cassette('fetch_unfound_candidate_by_id') do
+          response = subject
+          expect(response.status).to eq(404)
+          expect(response.body).to eq({ 'message' => 'Resource not found' })
+        end
+      end
+    end
+  end
+
   describe '#list_many' do
     subject(:list_many) { client.list_many('candidates', params) }
 

@@ -62,6 +62,15 @@ module GreenhouseApi
       end
     end
 
+    def get_one(resource, id)
+      response = request(
+        http_method: :get,
+        headers: headers,
+        endpoint: "#{resource}/#{id}"
+      )
+      compose_response(response)
+    end
+
     def list_many(resource, params = {})
       limit = params.delete(:limit)
       page = params[:page] || 1
