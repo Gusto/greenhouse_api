@@ -12,6 +12,10 @@ module GreenhouseApi
       @api_key = api_key
     end
 
+    def get_one(resource, id)
+      base_client.get_one(resource, id)
+    end
+
     def list_many(resource, params = {})
       base_client.list_many(resource, params)
     end
