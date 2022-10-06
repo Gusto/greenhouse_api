@@ -8,15 +8,15 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
-      public_suffix (>= 2.0.2, < 5.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     crack (0.4.4)
     diff-lcs (1.4.4)
     faraday (0.17.4)
       multipart-post (>= 1.2, < 3)
     hashdiff (1.0.1)
     multipart-post (2.1.1)
-    public_suffix (4.0.6)
+    public_suffix (4.0.7)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -33,7 +33,7 @@ GEM
     sorbet (0.5.6303)
       sorbet-static (= 0.5.6303)
     sorbet-runtime (0.5.6303)
-    sorbet-static (0.5.6303-universal-darwin-14)
+    sorbet-static (0.5.6303-x86_64-linux)
     vcr (6.0.0)
     webmock (3.10.0)
       addressable (>= 2.3.6)
@@ -41,7 +41,7 @@ GEM
       hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   greenhouse_api!
